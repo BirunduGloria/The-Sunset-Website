@@ -1,21 +1,38 @@
 body {
-    background-color: #f4c27a;
+    background-image: url("images/sunset.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    height: 70vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     text-align: center;
     font-family: Arial, sans-serif;
-    margin-top: 150px;
+
+    margin: 0;
 }
 
 h1 {
     color: white;
-    font-size: 50px;
-    background-color: rgba(0,0,0,0.4);
-    display: inline-block;
+    font-size: 60px;
+
+    background-color: rgba(0, 0, 0, 0.5);
+
     padding: 20px;
     border-radius: 10px;
 }
 
 p {
     color: white;
-    font-size: 24px;
-    margin-top: 20px;
+    font-size: 28px;
+
+    background-color: rgba(0, 0, 0, 0.4);
+
+    padding: 10px 20px;
+    border-radius: 8px;
 }
