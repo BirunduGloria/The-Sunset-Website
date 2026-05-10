@@ -15,6 +15,7 @@ body {
     font-family: Arial, sans-serif;
 
     margin: 0;
+
 }
 
 h1 {
@@ -35,4 +36,48 @@ p {
 
     padding: 10px 20px;
     border-radius: 8px;
+}
+.navbar {
+    width: 100%;
+
+    position: fixed;
+    top: 0;
+
+    background-color: rgba(0, 0, 0, 0.5);
+
+    padding: 20px 0;
+}
+.navbar {
+    width: 80%;
+
+    position: fixed;
+    top: 0;
+
+    background-color: rgba(0, 0, 0, 0.5);
+
+    padding: 20px 0;
+}
+.nav-links {
+    display: flex;
+
+    justify-content: right;
+
+    gap: 60px;
+
+    list-style: none;
+
+    margin: 0;
+    padding: 0;
+}
+.nav-links a {
+    text-decoration: none;
+
+    color: white;
+
+    font-size: 18px;
+
+    transition: 0.3s;
+}
+.nav-links a:hover {
+    color: orange;
 }
