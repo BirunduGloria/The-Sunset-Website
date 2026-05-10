@@ -3,7 +3,7 @@ body {
         rgba(0, 0, 0, 0.5),
         rgba(0, 0, 0, 0.5)
     ),
-    url("images/pexels.jpg");
+    url("images/polinaunsplash.jpg");
 
     background-size: cover;
     background-position: center;
@@ -111,11 +111,11 @@ body {
     color: blanchedalmond;
 }
 .check-btn {
-    background-color: beige;
+    background-color: burlywood;
 
     color: white;
 
-    font-size: 28px;
+    font-size: 18px;
 
     padding: 12px 25px;
 
@@ -125,12 +125,10 @@ body {
 
     cursor: pointer;
 
-    margin-top: 20px;
-
     transition: 0.3s;
 }
 .check-btn:hover {
-    background-color: orange;
+    background-color: darkorange;
 
     transform: translateY(-3px) scale(1.05);
 
