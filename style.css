@@ -207,3 +207,46 @@ html{
 .popup.show{
     opacity: 1;
 }
+.guest-counter{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.counter-box{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    margin-top: 10px;
+}
+
+.counter-box button{
+    width: 40px;
+    height: 40px;
+
+    border: none;
+
+    background-color: black;
+    color: white;
+
+    font-size: 20px;
+
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.counter-box button:hover{
+    background-color: darkorange;
+}
+
+#guestCount{
+    font-size: 22px;
+    font-weight: bold;
+
+    min-width: 20px;
+    text-align: center;
+}
