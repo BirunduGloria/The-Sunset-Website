@@ -10,8 +10,11 @@
 
     <nav class="navbar">
 
-        <ul class="nav-links">
+    <h1 class="logo">The Sunset</h1>
 
+
+        <ul class="nav-links">
+            
             <li><a href="#">Home</a></li>
 
             <li><a href="#">About</a></li>
@@ -27,11 +30,74 @@
     <!-- Hero Section -->
     <section class="hero">
 
-        <h1>Welcome to The Sunset</h1>
 
         <p>Where Every Stay Ends Beautifully</p>
 
     </section>
+
+    <!-- Booking Form Section -->
+<section class="booking-section">
+
+    <h2>Book Your Stay</h2>
+
+    <form id="bookingForm">
+
+        <!-- Check In -->
+        <input 
+            type="date" 
+            id="checkin"
+            required
+        >
+
+        <!-- Check Out -->
+        <input 
+            type="date" 
+            id="checkout"
+            required
+        >
+
+        <!-- Guests -->
+        <select id="guests" required>
+
+            <option value="">Guests</option>
+
+            <option value="1">1 Guest</option>
+
+            <option value="2">2 Guests</option>
+
+            <option value="3">3 Guests</option>
+
+            <option value="4">4 Guests</option>
+
+        </select>
+
+        <!-- Room Type -->
+        <select id="room" required>
+
+            <option value="">Room Type</option>
+
+            <option value="Studio">
+                Studio
+            </option>
+
+            <option value="One bedroom">
+                One Bedroom
+            </option>
+
+            <option value="Two Bedroom">
+                Two Bedroom
+            </option>
+
+        </select>
+
+        <!-- Submit Button -->
+        <button type="submit">
+            Search Availability
+        </button>
+
+    </form>
+
+</section>
 
     <!-- About Section -->
     <section class="about">
