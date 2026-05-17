@@ -1,3 +1,8 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 body {
     background-image: linear-gradient(
         rgba(0, 0, 0, 0.5),
@@ -11,54 +16,45 @@ body {
 
     height: 70vh;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 
     text-align: center;
     font-family: Arial, sans-serif;
 
     margin: 0;
 }
-.hero h1 {
-    color: white;
-    font-size: 60px;
 
-    background-color: rgba(0, 0, 0, 0.5);
-
-    padding: 20px;
-    border-radius: 10px;
-}
 
 .hero p {
     color: white;
-    font-size: 28px;
+    font-size: 35px;
 
     background-color: rgba(0, 0, 0, 0.4);
 
     padding: 10px 20px;
     border-radius: 8px;
+    padding-top: 80px;
+    .hero{
+    height: 80vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
-.navbar {
-    width: 100%;
-
-    position: fixed;
-    top: 0;
-
-    background-color: rgba(0, 0, 0, 0.5);
-
-    padding: 20px 0;
 }
-.navbar {
-    width: 80%;
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    position: fixed;
-    top: 0;
+    padding: 20px 40px;
+    background-color: rgba(0, 0, 0, 0.7);
+}
 
-    background-color: rgba(0, 0, 0, 0.5);
-
-    padding: 20px 0;
+/* Logo */
+.logo{
+    color: white;
+    font-size: 32px;
 }
 .nav-links {
     display: flex;
@@ -70,7 +66,7 @@ body {
     list-style: none;
 
     margin: 0;
-    padding: 0;
+    
 }
 .nav-links a {
     text-decoration: none;
@@ -133,4 +129,39 @@ body {
     transform: translateY(-3px) scale(1.05);
 
     box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+.booking-section{
+    padding: 50px;
+    text-align: center;
+    background-color: #eae4e4;
+}
+
+#bookingForm{
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+#bookingForm input,
+#bookingForm select{
+    padding: 12px;
+    width: 200px;
+}
+
+#bookingForm button{
+    padding: 12px 20px;
+    background-color: black;
+    color: #e4ded8;
+    border: none;
+    cursor: pointer;
+}
+.hero h1{
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+.hero p{
+    font-size: 24px;
 }
