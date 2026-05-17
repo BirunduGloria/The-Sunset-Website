@@ -12,8 +12,6 @@ bookingForm.addEventListener("submit", function(event){
 
     const checkout = document.getElementById("checkout").value;
 
-    const guests = document.getElementById("guests").value;
-
     const room = document.getElementById("room").value;
 
     // Empty fields validation
@@ -52,4 +50,36 @@ function showPopup(message){
 
     }, 3000);
 }
+const minusBtn = document.getElementById("minusBtn");
+
+const plusBtn = document.getElementById("plusBtn");
+
+const guestCount = document.getElementById("guestCount");
+
+let guests = 1;
+
+
+// Increase Guests
+plusBtn.addEventListener("click", function(){
+
+    guests++;
+
+    guestCount.textContent = guests;
+
+});
+
+
+// Decrease Guests
+minusBtn.addEventListener("click", function(){
+
+    // Prevent going below 1
+    if(guests > 1){
+
+        guests--;
+
+        guestCount.textContent = guests;
+
+    }
+
+});
 localStorage.setItem("booking", JSON.stringify(data));
