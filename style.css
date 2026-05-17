@@ -165,3 +165,45 @@ body {
 .hero p{
     font-size: 24px;
 }
+html{
+    scroll-behavior: smooth;
+}
+.about{
+    animation: fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.popup{
+    position: fixed;
+
+    top: 20px;
+    right: 20px;
+
+    background-color: black;
+    color: white;
+
+    padding: 15px 25px;
+
+    border-radius: 8px;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: opacity 0.5s ease;
+}
+
+/* Show Popup */
+.popup.show{
+    opacity: 1;
+}
