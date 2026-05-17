@@ -57,19 +57,30 @@
         >
 
         <!-- Guests -->
-        <select id="guests" required>
+       <div class="guest-counter">
 
-            <option value="">Guests</option>
+    <label>Guests</label>
 
-            <option value="1">1 Guest</option>
+    <div class="counter-box">
 
-            <option value="2">2 Guests</option>
+        <!-- Minus Button -->
+        <button type="button" id="minusBtn">
+            -
+        </button>
 
-            <option value="3">3 Guests</option>
+        <!-- Guest Number -->
+        <span id="guestCount">
+            1
+        </span>
 
-            <option value="4">4 Guests</option>
+        <!-- Plus Button -->
+        <button type="button" id="plusBtn">
+            +
+        </button>
 
-        </select>
+    </div>
+
+</div>
 
         <!-- Room Type -->
         <select id="room" required>
