@@ -2,14 +2,19 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    />
 
     <title>The Sunset</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 
 <body
@@ -17,15 +22,21 @@
 >
 
     <!-- Navbar -->
-    <nav class="flex justify-between items-center px-10 py-5 bg-black/70">
+    <nav
+        class="flex justify-between items-center px-10 py-5 bg-black/70"
+    >
 
         <!-- Logo -->
-        <h1 class="text-white text-3xl font-bold">
+        <h1
+            class="text-white text-3xl font-bold"
+        >
             The Sunset
         </h1>
 
-        <!-- Navigation Links -->
-        <ul class="flex gap-14 list-none">
+        <!-- Navigation -->
+        <ul
+            class="flex gap-14 list-none"
+        >
 
             <li>
                 <a
@@ -89,7 +100,7 @@
     <!-- About Section -->
     <section
         id="about"
-        class="w-4/5 mx-auto text-center py-20 animate-fadeIn"
+        class="w-4/5 mx-auto text-center py-20"
     >
 
         <h2
@@ -101,14 +112,16 @@
         <p
             class="text-xl max-w-3xl mx-auto leading-8 text-orange-50"
         >
-            Welcome to The Sunset — your ideal escape for comfort,
-            style, and peaceful evenings.
+            Welcome to The Sunset — your ideal escape
+            for comfort, style, and peaceful evenings.
         </p>
 
     </section>
 
-    <!-- CTA Button -->
-    <section class="py-10">
+    <!-- CTA -->
+    <section
+        class="py-10"
+    >
 
         <button
             class="bg-amber-300 text-white text-lg px-6 py-3 rounded-lg transition duration-300 hover:bg-orange-500 hover:-translate-y-1 hover:scale-105 hover:shadow-xl"
@@ -124,29 +137,52 @@
     >
 
         <form
+            id="bookingForm"
             class="flex justify-center gap-4 flex-wrap mt-5"
         >
 
+            <!-- Check In -->
             <input
+                id="checkin"
                 type="date"
-                class="p-3 w-52 rounded-lg"
+                class="p-3 w-52 rounded-lg border"
             />
 
+            <!-- Check Out -->
             <input
+                id="checkout"
                 type="date"
-                class="p-3 w-52 rounded-lg"
+                class="p-3 w-52 rounded-lg border"
             />
 
+            <!-- Room Selection -->
             <select
-                class="p-3 w-52 rounded-lg"
+                id="room"
+                class="p-3 w-52 rounded-lg border"
             >
-                <option>Standard Room</option>
-                <option>Deluxe Room</option>
-                <option>Ocean Suite</option>
+
+                <option value="">
+                    Select Room
+                </option>
+
+                <option value="100">
+                    Standard Room - $100
+                </option>
+
+                <option value="180">
+                    Deluxe Room - $180
+                </option>
+
+                <option value="250">
+                    Ocean Suite - $250
+                </option>
+
             </select>
 
+            <!-- Book Button -->
             <button
-                class="px-5 py-3 bg-black text-stone-200 rounded-lg hover:bg-orange-500 transition"
+                type="submit"
+                class="px-5 py-3 bg-black text-white rounded-lg hover:bg-orange-500 transition"
             >
                 Book Now
             </button>
@@ -159,29 +195,37 @@
         >
 
             <label
-                class="text-lg font-semibold"
+                class="text-lg font-semibold text-gray-700 mb-3"
             >
                 Guests
             </label>
 
             <div
-                class="flex items-center gap-4 mt-3"
+                class="flex items-center bg-white rounded-full shadow-md px-4 py-2 gap-6"
             >
 
+                <!-- Minus Button -->
                 <button
-                    class="w-10 h-10 rounded-full bg-black text-white text-xl hover:bg-orange-500 transition"
+                    type="button"
+                    id="minusBtn"
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-orange-500 hover:text-white transition text-2xl font-bold"
                 >
                     -
                 </button>
 
+                <!-- Guest Count -->
                 <span
-                    class="text-2xl font-bold min-w-[20px]"
+                    id="guestCount"
+                    class="text-2xl font-semibold text-gray-800 min-w-[30px] text-center"
                 >
                     1
                 </span>
 
+                <!-- Plus Button -->
                 <button
-                    class="w-10 h-10 rounded-full bg-black text-white text-xl hover:bg-orange-500 transition"
+                    type="button"
+                    id="plusBtn"
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-orange-500 hover:text-white transition text-2xl font-bold"
                 >
                     +
                 </button>
@@ -190,14 +234,57 @@
 
         </div>
 
+        <!-- Booking Summary -->
+        <div
+            id="summaryCard"
+            class="hidden bg-white rounded-2xl shadow-xl p-6 max-w-md mx-auto mt-10 text-left"
+        >
+
+            <h2
+                class="text-2xl font-bold mb-4"
+            >
+                Booking Summary
+            </h2>
+
+            <p class="mb-2">
+                <strong>Room:</strong>
+                <span id="summaryRoom"></span>
+            </p>
+
+            <p class="mb-2">
+                <strong>Guests:</strong>
+                <span id="summaryGuests"></span>
+            </p>
+
+            <p class="mb-2">
+                <strong>Nights:</strong>
+                <span id="summaryNights"></span>
+            </p>
+
+            <p class="mb-2">
+                <strong>Total:</strong>
+                $
+                <span id="summaryTotal"></span>
+            </p>
+
+        </div>
+
     </section>
 
     <!-- Popup -->
     <div
+        id="popup"
         class="fixed top-5 right-5 bg-black text-white px-6 py-4 rounded-lg opacity-0 pointer-events-none transition-opacity duration-500"
     >
-        Booking Successful
+
+        <p id="popup-message">
+            Booking Successful
+        </p>
+
     </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
 
 </body>
 
