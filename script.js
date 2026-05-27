@@ -1,60 +1,20 @@
-const bookingForm = document.getElementById("bookingForm");
+const bookingForm =
+    document.getElementById("bookingForm");
 
-const popup = document.getElementById("popup");
+const popup =
+    document.getElementById("popup");
 
-const popupMessage = document.getElementById("popup-message");
+const popupMessage =
+    document.getElementById("popup-message");
 
-bookingForm.addEventListener("submit", function(event){
+const minusBtn =
+    document.getElementById("minusBtn");
 
-    event.preventDefault();
+const plusBtn =
+    document.getElementById("plusBtn");
 
-    const checkin = document.getElementById("checkin").value;
-
-    const checkout = document.getElementById("checkout").value;
-
-    const room = document.getElementById("room").value;
-
-    // Empty fields validation
-    if(
-        checkin === "" ||
-        checkout === "" ||
-        guests === "" ||
-        room === ""
-    ){
-        showPopup("Please fill in all booking details.");
-        return;
-    }
-
-    // Date validation
-    if(checkout <= checkin){
-        showPopup("Check-out date must be after check-in.");
-        return;
-    }
-
-    // Success
-    showPopup("Room available! Please proceed to booking.");
-});
-
-
-// Popup Function
-function showPopup(message){
-
-    popupMessage.textContent = message;
-
-    popup.classList.add("show");
-
-    // Hide popup after 3 seconds
-    setTimeout(function(){
-
-        popup.classList.remove("show");
-
-    }, 3000);
-}
-const minusBtn = document.getElementById("minusBtn");
-
-const plusBtn = document.getElementById("plusBtn");
-
-const guestCount = document.getElementById("guestCount");
+const guestCount =
+    document.getElementById("guestCount");
 
 let guests = 1;
 
@@ -72,7 +32,6 @@ plusBtn.addEventListener("click", function(){
 // Decrease Guests
 minusBtn.addEventListener("click", function(){
 
-    // Prevent going below 1
     if(guests > 1){
 
         guests--;
@@ -82,4 +41,121 @@ minusBtn.addEventListener("click", function(){
     }
 
 });
-localStorage.setItem("booking", JSON.stringify(data));
+
+
+// Booking Form
+bookingForm.addEventListener("submit", function(event){
+
+    event.preventDefault();
+
+    const checkin =
+        document.getElementById("checkin").value;
+
+    const checkout =
+        document.getElementById("checkout").value;
+
+    const room =
+        document.getElementById("room").value;
+
+    // Validation
+    if(
+        checkin === "" ||
+        checkout === "" ||
+        guests < 1 ||
+        room === ""
+    ){
+
+        showPopup(
+            "Please fill in all booking details."
+        );
+
+        return;
+    }
+
+    // Date validation
+    if(checkout <= checkin){
+
+        showPopup(
+            "Check-out date must be after check-in."
+        );
+
+        return;
+    }
+
+    // Room details
+    const roomSelect =
+        document.getElementById("room");
+
+    const roomName =
+        roomSelect.options[
+            roomSelect.selectedIndex
+        ].text;
+
+    const roomPrice =
+        Number(roomSelect.value);
+
+    // Calculate nights
+    const checkinDate =
+        new Date(checkin);
+
+    const checkoutDate =
+        new Date(checkout);
+
+    const timeDifference =
+        checkoutDate - checkinDate;
+
+    const nights =
+        timeDifference / (1000 * 60 * 60 * 24);
+
+    // Calculate total
+    const total =
+        nights * roomPrice;
+
+    // Update summary
+    document
+        .getElementById("summaryRoom")
+        .textContent = roomName;
+
+    document
+        .getElementById("summaryGuests")
+        .textContent = guests;
+
+    document
+        .getElementById("summaryNights")
+        .textContent = nights;
+
+    document
+        .getElementById("summaryTotal")
+        .textContent = total;
+
+    // Show summary card
+    document
+        .getElementById("summaryCard")
+        .classList.remove("hidden");
+
+    // Popup
+    showPopup(
+        "Room available! Please proceed to booking."
+    );
+
+});
+
+
+// Popup Function
+function showPopup(message){
+
+    popupMessage.textContent = message;
+
+    popup.classList.remove("opacity-0");
+
+    popup.classList.add("opacity-100");
+
+    setTimeout(function(){
+
+        popup.classList.remove("opacity-100");
+
+        popup.classList.add("opacity-0");
+
+    }, 3000);
+
+}
