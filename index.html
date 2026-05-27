@@ -1,133 +1,204 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>The Sunset | Your Perfect Getaway</title>
+<html lang="en">
 
-    <link rel="stylesheet" href="style.css">
+<head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>The Sunset</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body
+    class="bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('images/unsplash.jpg')] bg-cover bg-center bg-no-repeat text-center font-sans scroll-smooth"
+>
 
-    <nav class="navbar">
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center px-10 py-5 bg-black/70">
 
-    <h1 class="logo">The Sunset</h1>
+        <!-- Logo -->
+        <h1 class="text-white text-3xl font-bold">
+            The Sunset
+        </h1>
 
+        <!-- Navigation Links -->
+        <ul class="flex gap-14 list-none">
 
-        <ul class="nav-links">
-            
-            <li><a href="index.html">Home</a></li>
+            <li>
+                <a
+                    href="#"
+                    class="text-white text-lg hover:text-orange-400 transition duration-300"
+                >
+                    Home
+                </a>
+            </li>
 
-            <li><a href="about.html">About</a></li>
+            <li>
+                <a
+                    href="#about"
+                    class="text-white text-lg hover:text-orange-400 transition duration-300"
+                >
+                    About
+                </a>
+            </li>
 
-            <li><a href="rooms.html">Rooms</a></li>
+            <li>
+                <a
+                    href="#"
+                    class="text-white text-lg hover:text-orange-400 transition duration-300"
+                >
+                    Rooms
+                </a>
+            </li>
 
-            <li><a href="contact.html">Contact</a></li>
+            <li>
+                <a
+                    href="#"
+                    class="text-white text-lg hover:text-orange-400 transition duration-300"
+                >
+                    Contact
+                </a>
+            </li>
+
         </ul>
 
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section
+        class="h-[80vh] flex flex-col justify-center items-center"
+    >
 
-
-        <p>Where Every Stay Ends Beautifully</p>
-
-    </section>
-
-    <!-- Booking Form Section -->
-<section class="booking-section">
-
-    <h2>Book Your Stay</h2>
-
-    <form id="bookingForm">
-
-        <!-- Check In -->
-        <input 
-            type="date" 
-            id="checkin"
-            required
+        <h1
+            class="text-white text-6xl mb-5 bg-black/50 px-6 py-4 rounded-xl"
         >
+            Welcome To The Sunset
+        </h1>
 
-        <!-- Check Out -->
-        <input 
-            type="date" 
-            id="checkout"
-            required
+        <p
+            class="text-white text-2xl bg-black/40 px-5 py-3 rounded-lg"
         >
-
-        <!-- Guests -->
-       <div class="guest-counter">
-
-    <label>Guests</label>
-
-    <div class="counter-box">
-
-        <!-- Minus Button -->
-        <button type="button" id="minusBtn">
-            -
-        </button>
-
-        <!-- Guest Number -->
-        <span id="guestCount">
-            1
-        </span>
-
-        <!-- Plus Button -->
-        <button type="button" id="plusBtn">
-            +
-        </button>
-
-    </div>
-
-</div>
-
-        <!-- Room Type -->
-        <select id="room" required>
-
-            <option value="">Room Type</option>
-
-            <option value="Studio">
-                Studio
-            </option>
-
-            <option value="One bedroom">
-                One Bedroom
-            </option>
-
-            <option value="Two Bedroom">
-                Two Bedroom
-            </option>
-
-        </select>
-
-        <!-- Submit Button -->
-        <button type="submit">
-            Check Availability
-        </button>
-
-    </form>
-
-    <!-- Popup Message -->
-<div id="popup" class="popup">
-
-    <p id="popup-message"></p>
-
-</div>
-
-</section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-
-        <p>
-            Welcome to The Sunset — your ideal escape for comfort,
-            style, and peaceful evenings. Whether you're here to relax,
-            recharge, or create memories, every moment is designed to feel special.
+            Where Every Stay Ends Beautifully
         </p>
 
     </section>
 
-<script src="script.js"></script>
+    <!-- About Section -->
+    <section
+        id="about"
+        class="w-4/5 mx-auto text-center py-20 animate-fadeIn"
+    >
+
+        <h2
+            class="text-6xl mb-5 text-yellow-600"
+        >
+            About The Sunset
+        </h2>
+
+        <p
+            class="text-xl max-w-3xl mx-auto leading-8 text-orange-50"
+        >
+            Welcome to The Sunset — your ideal escape for comfort,
+            style, and peaceful evenings.
+        </p>
+
+    </section>
+
+    <!-- CTA Button -->
+    <section class="py-10">
+
+        <button
+            class="bg-amber-300 text-white text-lg px-6 py-3 rounded-lg transition duration-300 hover:bg-orange-500 hover:-translate-y-1 hover:scale-105 hover:shadow-xl"
+        >
+            Check Availability
+        </button>
+
+    </section>
+
+    <!-- Booking Section -->
+    <section
+        class="py-12 text-center bg-gray-200"
+    >
+
+        <form
+            class="flex justify-center gap-4 flex-wrap mt-5"
+        >
+
+            <input
+                type="date"
+                class="p-3 w-52 rounded-lg"
+            />
+
+            <input
+                type="date"
+                class="p-3 w-52 rounded-lg"
+            />
+
+            <select
+                class="p-3 w-52 rounded-lg"
+            >
+                <option>Standard Room</option>
+                <option>Deluxe Room</option>
+                <option>Ocean Suite</option>
+            </select>
+
+            <button
+                class="px-5 py-3 bg-black text-stone-200 rounded-lg hover:bg-orange-500 transition"
+            >
+                Book Now
+            </button>
+
+        </form>
+
+        <!-- Guest Counter -->
+        <div
+            class="flex flex-col items-center mt-10"
+        >
+
+            <label
+                class="text-lg font-semibold"
+            >
+                Guests
+            </label>
+
+            <div
+                class="flex items-center gap-4 mt-3"
+            >
+
+                <button
+                    class="w-10 h-10 rounded-full bg-black text-white text-xl hover:bg-orange-500 transition"
+                >
+                    -
+                </button>
+
+                <span
+                    class="text-2xl font-bold min-w-[20px]"
+                >
+                    1
+                </span>
+
+                <button
+                    class="w-10 h-10 rounded-full bg-black text-white text-xl hover:bg-orange-500 transition"
+                >
+                    +
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Popup -->
+    <div
+        class="fixed top-5 right-5 bg-black text-white px-6 py-4 rounded-lg opacity-0 pointer-events-none transition-opacity duration-500"
+    >
+        Booking Successful
+    </div>
 
 </body>
+
 </html>
