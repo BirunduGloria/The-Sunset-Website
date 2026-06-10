@@ -1,3 +1,7 @@
+// ======================
+// DOM ELEMENTS
+// ======================
+
 const bookingForm =
     document.getElementById("bookingForm");
 
@@ -16,133 +20,184 @@ const plusBtn =
 const guestCount =
     document.getElementById("guestCount");
 
+const bookNowBtn =
+    document.getElementById("bookNowBtn");
+
+const bookingSection =
+    document.getElementById("bookingSection");
+
 let guests = 1;
 
 
-// Increase Guests
-plusBtn.addEventListener("click", function(){
+// ======================
+// BOOK NOW BUTTON
+// ======================
 
-    guests++;
+if (bookNowBtn && bookingSection) {
 
-    guestCount.textContent = guests;
+    bookNowBtn.addEventListener("click", function () {
 
-});
+        bookingSection.classList.remove("hidden");
+
+        bookingSection.scrollIntoView({
+
+            behavior: "smooth"
+
+        });
+
+    });
+
+}
 
 
-// Decrease Guests
-minusBtn.addEventListener("click", function(){
+// ======================
+// GUEST COUNTER
+// ======================
 
-    if(guests > 1){
+if (plusBtn) {
 
-        guests--;
+    plusBtn.addEventListener("click", function () {
+
+        guests++;
 
         guestCount.textContent = guests;
 
-    }
+    });
 
-});
+}
+
+if (minusBtn) {
+
+    minusBtn.addEventListener("click", function () {
+
+        if (guests > 1) {
+
+            guests--;
+
+            guestCount.textContent = guests;
+
+        }
+
+    });
+
+}
 
 
-// Booking Form
-bookingForm.addEventListener("submit", function(event){
+// ======================
+// BOOKING FORM
+// ======================
 
-    event.preventDefault();
+if (bookingForm) {
 
-    const checkin =
-        document.getElementById("checkin").value;
+    bookingForm.addEventListener("submit", function (event) {
 
-    const checkout =
-        document.getElementById("checkout").value;
+        event.preventDefault();
 
-    const room =
-        document.getElementById("room").value;
+        const checkin =
+            document.getElementById("checkin").value;
 
-    // Validation
-    if(
-        checkin === "" ||
-        checkout === "" ||
-        guests < 1 ||
-        room === ""
-    ){
+        const checkout =
+            document.getElementById("checkout").value;
 
+        const room =
+            document.getElementById("room").value;
+
+        // Validation
+        if (
+            checkin === "" ||
+            checkout === "" ||
+            room === "" ||
+            guests < 1
+        ) {
+
+            showPopup(
+                "Please fill in all booking details."
+            );
+
+            return;
+
+        }
+
+        // Date Validation
+        if (checkout <= checkin) {
+
+            showPopup(
+                "Check-out date must be after check-in."
+            );
+
+            return;
+
+        }
+
+        // Room Information
+        const roomSelect =
+            document.getElementById("room");
+
+        const roomName =
+            roomSelect.options[
+                roomSelect.selectedIndex
+            ].text;
+
+        const roomPrice =
+            Number(roomSelect.value);
+
+        // Calculate Nights
+        const checkinDate =
+            new Date(checkin);
+
+        const checkoutDate =
+            new Date(checkout);
+
+        const timeDifference =
+            checkoutDate - checkinDate;
+
+        const nights =
+            timeDifference /
+            (1000 * 60 * 60 * 24);
+
+        // Calculate Total
+        const total =
+            nights * roomPrice;
+
+        // Update Summary Card
+        document
+            .getElementById("summaryRoom")
+            .textContent = roomName;
+
+        document
+            .getElementById("summaryGuests")
+            .textContent = guests;
+
+        document
+            .getElementById("summaryNights")
+            .textContent = nights;
+
+        document
+            .getElementById("summaryTotal")
+            .textContent = total;
+
+        // Show Summary Card
+        document
+            .getElementById("summaryCard")
+            .classList.remove("hidden");
+
+        // Success Popup
         showPopup(
-            "Please fill in all booking details."
+            "Room available! Please proceed to booking."
         );
 
-        return;
-    }
+    });
 
-    // Date validation
-    if(checkout <= checkin){
-
-        showPopup(
-            "Check-out date must be after check-in."
-        );
-
-        return;
-    }
-
-    // Room details
-    const roomSelect =
-        document.getElementById("room");
-
-    const roomName =
-        roomSelect.options[
-            roomSelect.selectedIndex
-        ].text;
-
-    const roomPrice =
-        Number(roomSelect.value);
-
-    // Calculate nights
-    const checkinDate =
-        new Date(checkin);
-
-    const checkoutDate =
-        new Date(checkout);
-
-    const timeDifference =
-        checkoutDate - checkinDate;
-
-    const nights =
-        timeDifference / (1000 * 60 * 60 * 24);
-
-    // Calculate total
-    const total =
-        nights * roomPrice;
-
-    // Update summary
-    document
-        .getElementById("summaryRoom")
-        .textContent = roomName;
-
-    document
-        .getElementById("summaryGuests")
-        .textContent = guests;
-
-    document
-        .getElementById("summaryNights")
-        .textContent = nights;
-
-    document
-        .getElementById("summaryTotal")
-        .textContent = total;
-
-    // Show summary card
-    document
-        .getElementById("summaryCard")
-        .classList.remove("hidden");
-
-    // Popup
-    showPopup(
-        "Room available! Please proceed to booking."
-    );
-
-});
+}
 
 
-// Popup Function
-function showPopup(message){
+// ======================
+// POPUP FUNCTION
+// ======================
+
+function showPopup(message) {
+
+    if (!popup || !popupMessage) return;
 
     popupMessage.textContent = message;
 
@@ -150,7 +205,7 @@ function showPopup(message){
 
     popup.classList.add("opacity-100");
 
-    setTimeout(function(){
+    setTimeout(function () {
 
         popup.classList.remove("opacity-100");
 
