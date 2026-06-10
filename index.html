@@ -309,12 +309,6 @@
                     Choose Room
                 </button>
 
-<button
-    onclick="openGallery('standard')"
-    class="w-full bg-black text-white py-3 rounded-lg hover:bg-orange-500 transition duration-300"
->
-    View Gallery
-</button>
 
 <!-- Gallery Modal -->
 <div
@@ -359,160 +353,182 @@
     </div>
 
 
-</section>
-
-    <!-- CTA -->
-    <section
-        class="py-10"
-    >
-
-        <button
-            class="bg-amber-300 text-white text-lg px-6 py-3 rounded-lg transition duration-300 hover:bg-orange-500 hover:-translate-y-1 hover:scale-105 hover:shadow-xl"
-        >
-            Check Availability
-        </button>
-
-    </section>
-
     <!-- Booking Section -->
     <section
-        class="py-12 text-center bg-gray-200"
+    class="h-[60vh] bg-cover bg-center flex items-center justify-center"
+    style="
+        background-image:
+        linear-gradient(
+            rgba(0,0,0,0.5),
+            rgba(0,0,0,0.5)
+        ),
+        url('images/bookingform.jpg');
+    "
+>
+
+    <div class="text-center text-white">
+
+        <h1 class="text-6xl font-bold mb-4">
+            The Luxury Experience You'll Remember
+        </h1>
+
+        <p class="text-xl">
+            Comfort, elegance, and unforgettable moments.
+        </p>
+
+        <button
+            id="bookNowBtn"
+            class="bg-yellow-500 px-8 py-4 rounded-full text-lg font-semibold hover:bg-yellow-600 transition flex items-center gap-3 mx-auto"
+        >
+            Book Now
+
+            <span class="text-2xl">
+                >
+            </span>
+
+        </button>
+
+    </div>
+
+</section>
+
+<section
+    class="bg-white py-20 px-6"
+>
+
+    <h2
+        class="text-4xl font-bold text-center mb-12"
+    >
+        What Our Guests Say
+    </h2>
+
+    <div
+        class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-10"
     >
 
-        <form
-            id="bookingForm"
-            class="flex justify-center gap-4 flex-wrap mt-5"
-        >
+        <img
+            src="images/Testimonialspic.jpg"
+            alt="Guest"
+            class="w-72 h-72 rounded-2xl object-cover shadow-lg"
+        />
 
-            <!-- Check In -->
-            <input
-                id="checkin"
-                type="date"
-                class="p-3 w-52 rounded-lg border"
-            />
-
-            <!-- Check Out -->
-            <input
-                id="checkout"
-                type="date"
-                class="p-3 w-52 rounded-lg border"
-            />
-
-            <!-- Room Selection -->
-            <select
-                id="room"
-                class="p-3 w-52 rounded-lg border"
-            >
-
-                <option value="">
-                    Select Room
-                </option>
-
-                <option value="100">
-                    Standard Room - $100
-                </option>
-
-                <option value="180">
-                    Deluxe Room - $180
-                </option>
-
-                <option value="250">
-                    Ocean Suite - $250
-                </option>
-
-            </select>
-
-            <!-- Book Button -->
-            <button
-                type="submit"
-                class="px-5 py-3 bg-black text-white rounded-lg hover:bg-orange-500 transition"
-            >
-                Book Now
-            </button>
-
-        </form>
-
-        <!-- Guest Counter -->
-        <div
-            class="flex flex-col items-center mt-10"
-        >
-
-            <label
-                class="text-lg font-semibold text-gray-700 mb-3"
-            >
-                Guests
-            </label>
+        <div>
 
             <div
-                class="flex items-center bg-white rounded-full shadow-md px-4 py-2 gap-6"
+                class="text-yellow-500 text-2xl mb-4"
             >
-
-                <!-- Minus Button -->
-                <button
-                    type="button"
-                    id="minusBtn"
-                    class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-orange-500 hover:text-white transition text-2xl font-bold"
-                >
-                    -
-                </button>
-
-                <!-- Guest Count -->
-                <span
-                    id="guestCount"
-                    class="text-2xl font-semibold text-gray-800 min-w-[30px] text-center"
-                >
-                    1
-                </span>
-
-                <!-- Plus Button -->
-                <button
-                    type="button"
-                    id="plusBtn"
-                    class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-orange-500 hover:text-white transition text-2xl font-bold"
-                >
-                    +
-                </button>
-
+                ★★★★★
             </div>
 
+            <p
+                class="text-gray-700 text-lg leading-8"
+            >
+                "The rooms were extremely accommodating and allowed us to
+                check in early at like 10am.We got there super early and I didn't wanna 
+                wait. So this was a big plus. The service was exceptional as well.
+                Would definitely send a friend there!"
+            </p>
+
+            <h3
+                class="mt-6 font-bold text-xl"
+            >
+                Sarah M.
+            </h3>
+
         </div>
 
-        <!-- Booking Summary -->
+    </div>
+
+</section>
+<section
+    id="bookingSection"
+    class="hidden bg-gray-100 py-20 px-6"
+>
+
+    <h2
+        class="text-4xl font-bold text-center mb-10"
+    >
+        Complete Your Booking
+    </h2>
+
+    <form
+        id="bookingForm"
+        class="max-w-4xl mx-auto grid md:grid-cols-2 gap-6"
+    >
+
+        <input
+            id="checkin"
+            type="date"
+            class="p-4 rounded-lg border"
+        />
+
+        <input
+            id="checkout"
+            type="date"
+            class="p-4 rounded-lg border"
+        />
+
+        <select
+            id="room"
+            class="p-4 rounded-lg border"
+        >
+            <option value="">
+                Select Room
+            </option>
+
+            <option value="100">
+                Standard Room
+            </option>
+
+            <option value="180">
+                Deluxe Room
+            </option>
+
+            <option value="250">
+                Ocean Suite
+            </option>
+
+        </select>
+
         <div
-            id="summaryCard"
-            class="hidden bg-white rounded-2xl shadow-xl p-6 max-w-md mx-auto mt-10 text-left"
+            class="flex justify-center items-center gap-6 border rounded-lg"
         >
 
-            <h2
-                class="text-2xl font-bold mb-4"
+            <button
+                type="button"
+                id="minusBtn"
+                class="text-3xl"
             >
-                Booking Summary
-            </h2>
+                -
+            </button>
 
-            <p class="mb-2">
-                <strong>Room:</strong>
-                <span id="summaryRoom"></span>
-            </p>
+            <span
+                id="guestCount"
+                class="text-xl font-bold"
+            >
+                1
+            </span>
 
-            <p class="mb-2">
-                <strong>Guests:</strong>
-                <span id="summaryGuests"></span>
-            </p>
-
-            <p class="mb-2">
-                <strong>Nights:</strong>
-                <span id="summaryNights"></span>
-            </p>
-
-            <p class="mb-2">
-                <strong>Total:</strong>
-                $
-                <span id="summaryTotal"></span>
-            </p>
+            <button
+                type="button"
+                id="plusBtn"
+                class="text-3xl"
+            >
+                +
+            </button>
 
         </div>
 
-    </section>
+        <button
+            type="submit"
+            class="md:col-span-2 bg-orange-500 text-white py-4 rounded-lg text-lg font-semibold hover:bg-orange-600"
+        >
+            Continue Booking
+        </button>
+
+    </form>
+
+</section>
 
     <!-- Popup -->
     <div
