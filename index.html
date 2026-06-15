@@ -506,6 +506,92 @@
 
     </div>
 
+    <section
+    id="guestInfoSection"
+    class="hidden py-16 bg-white"
+>
+
+    <div
+        class="max-w-2xl mx-auto bg-gray-100 rounded-2xl p-8 shadow-lg"
+    >
+
+        <h2
+            class="text-3xl font-bold mb-6 text-center"
+        >
+            Guest Information
+        </h2>
+
+        <form id="guestForm">
+
+            <input
+                id="guestName"
+                type="text"
+                placeholder="Full Name"
+                class="w-full p-4 rounded-lg border mb-4"
+            >
+
+            <input
+                id="guestEmail"
+                type="email"
+                placeholder="Email Address"
+                class="w-full p-4 rounded-lg border mb-4"
+            >
+
+            <input
+                id="guestPhone"
+                type="tel"
+                placeholder="Phone Number"
+                class="w-full p-4 rounded-lg border mb-4"
+            >
+
+            <input
+                id="guestCountry"
+                type="text"
+                placeholder="Country"
+                class="w-full p-4 rounded-lg border mb-6"
+            >
+
+            <button
+                type="submit"
+                class="w-full bg-orange-500 text-white py-4 rounded-lg hover:bg-orange-600"
+            >
+                Complete Booking
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+<section
+    id="confirmationSection"
+    class="hidden py-20 bg-green-50"
+>
+
+    <div
+        class="max-w-2xl mx-auto bg-white p-10 rounded-2xl shadow-lg text-center"
+    >
+
+        <h2
+            class="text-4xl font-bold text-green-600 mb-4"
+        >
+            Booking Confirmed 🎉
+        </h2>
+
+        <p class="mb-3">
+            Thank you for choosing The Sunset.
+        </p>
+
+        <p>
+            Booking Number:
+            <span id="bookingNumber"></span>
+        </p>
+
+    </div>
+
+</section>
+
     <!-- JavaScript -->
     <script src="script.js"></script>
 
