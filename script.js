@@ -1,6 +1,6 @@
-// ======================
+// ===========================
 // DOM ELEMENTS
-// ======================
+// ===========================
 
 const bookingForm = document.getElementById("bookingForm");
 const guestForm = document.getElementById("guestForm");
@@ -8,350 +8,295 @@ const guestForm = document.getElementById("guestForm");
 const popup = document.getElementById("popup");
 const popupMessage = document.getElementById("popup-message");
 
+const bookNowBtn = document.getElementById("bookNowBtn");
+const bookingSection = document.getElementById("bookingSection");
+
 const minusBtn = document.getElementById("minusBtn");
 const plusBtn = document.getElementById("plusBtn");
 const guestCount = document.getElementById("guestCount");
 
-const bookNowBtn = document.getElementById("bookNowBtn");
-const bookingSection = document.getElementById("bookingSection");
+const roomButtons = document.querySelectorAll(".roomBtn");
 
 let guests = 1;
 
-// ======================
-// BOOK NOW BUTTON
-// ======================
+let bookingData = {};
 
-if (bookNowBtn && bookingSection) {
-    bookNowBtn.addEventListener("click", () => {
-        bookingSection.classList.remove("hidden");
+// ===========================
+// ROOM CARD BOOK NOW BUTTONS
+// ===========================
 
-        bookingSection.scrollIntoView({
-            behavior: "smooth"
-        });
+roomButtons.forEach((button) => {
+  button.addEventListener("click", function () {
+    const roomName = this.dataset.room;
+    const roomPrice = this.dataset.price;
+
+    document.getElementById("room").value = roomPrice;
+
+    const selectedRoomName =
+      document.getElementById("selectedRoomName");
+
+    const selectedRoomPrice =
+      document.getElementById("selectedRoomPrice");
+
+    if (selectedRoomName) {
+      selectedRoomName.value = roomName;
+    }
+
+    if (selectedRoomPrice) {
+      selectedRoomPrice.value = roomPrice;
+    }
+
+    bookingSection.classList.remove("hidden");
+
+    bookingSection.scrollIntoView({
+      behavior: "smooth",
     });
+  });
+});
+
+// ===========================
+// HERO BOOK NOW BUTTON
+// ===========================
+
+if (bookNowBtn) {
+  bookNowBtn.addEventListener("click", function () {
+    bookingSection.classList.remove("hidden");
+
+    bookingSection.scrollIntoView({
+      behavior: "smooth",
+    });
+  });
 }
 
-// ======================
+// ===========================
 // GUEST COUNTER
-// ======================
+// ===========================
 
 if (plusBtn) {
-    plusBtn.addEventListener("click", () => {
-        guests++;
-        guestCount.textContent = guests;
-    });
+  plusBtn.addEventListener("click", function () {
+    guests++;
+    guestCount.textContent = guests;
+  });
 }
 
 if (minusBtn) {
-    minusBtn.addEventListener("click", () => {
-        if (guests > 1) {
-            guests--;
-            guestCount.textContent = guests;
-        }
-    });
+  minusBtn.addEventListener("click", function () {
+    if (guests > 1) {
+      guests--;
+      guestCount.textContent = guests;
+    }
+  });
 }
 
-// ======================
+// ===========================
 // BOOKING FORM
-// ======================
+// ===========================
 
 if (bookingForm) {
-    bookingForm.addEventListener("submit", function (event) {
+  bookingForm.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-        event.preventDefault();
+    const checkin =
+      document.getElementById("checkin").value;
 
-        const checkin =
-            document.getElementById("checkin").value;
+    const checkout =
+      document.getElementById("checkout").value;
 
-        const checkout =
-            document.getElementById("checkout").value;
+    const room =
+      document.getElementById("room").value;
 
-        const room =
-            document.getElementById("room").value;
+    if (
+      checkin === "" ||
+      checkout === "" ||
+      room === ""
+    ) {
+      showPopup(
+        "Please fill in all booking details."
+      );
+      return;
+    }
 
-        if (
-            checkin === "" ||
-            checkout === "" ||
-            room === ""
-        ) {
-            showPopup(
-                "Please fill in all booking details."
-            );
-            return;
-        }
+    if (checkout <= checkin) {
+      showPopup(
+        "Check-out date must be after check-in."
+      );
+      return;
+    }
 
-        if (checkout <= checkin) {
-            showPopup(
-                "Check-out date must be after check-in."
-            );
-            return;
-        }
+    const roomSelect =
+      document.getElementById("room");
 
-        const roomSelect =
-            document.getElementById("room");
+    const roomName =
+      roomSelect.options[
+        roomSelect.selectedIndex
+      ].text;
 
-        const roomName =
-            roomSelect.options[
-                roomSelect.selectedIndex
-            ].text;
+    const roomPrice =
+      Number(roomSelect.value);
 
-        const roomPrice =
-            Number(roomSelect.value);
+    const checkinDate =
+      new Date(checkin);
 
-        const checkinDate =
-            new Date(checkin);
+    const checkoutDate =
+      new Date(checkout);
 
-        const checkoutDate =
-            new Date(checkout);
+    const nights =
+      (checkoutDate - checkinDate) /
+      (1000 * 60 * 60 * 24);
 
-        const timeDifference =
-            checkoutDate - checkinDate;
+    const total =
+      nights * roomPrice;
 
-        const nights =
-            timeDifference /
-            (1000 * 60 * 60 * 24);
+    bookingData = {
+      roomName,
+      roomPrice,
+      checkin,
+      checkout,
+      nights,
+      total,
+      guests,
+    };
 
-        const total =
-            nights * roomPrice;
+    document
+      .getElementById("guestInfoSection")
+      .classList.remove("hidden");
 
-        document.getElementById(
-            "summaryRoom"
-        ).textContent = roomName;
+    document
+      .getElementById("guestInfoSection")
+      .scrollIntoView({
+        behavior: "smooth",
+      });
 
-        document.getElementById(
-            "summaryGuests"
-        ).textContent = guests;
-
-        document.getElementById(
-            "summaryNights"
-        ).textContent = nights;
-
-        document.getElementById(
-            "summaryTotal"
-        ).textContent = total;
-
-        const guestInfoSection =
-            document.getElementById(
-                "guestInfoSection"
-            );
-
-        if (guestInfoSection) {
-
-            guestInfoSection
-                .classList.remove("hidden");
-
-            guestInfoSection
-                .scrollIntoView({
-                    behavior: "smooth"
-                });
-        }
-
-        showPopup(
-            "Room available! Please enter your details."
-        );
-    });
+    showPopup(
+      "Room available! Please enter guest details."
+    );
+  });
 }
 
-// ======================
-// GUEST FORM
-// ======================
+// ===========================
+// GUEST INFORMATION FORM
+// ===========================
 
 if (guestForm) {
+  guestForm.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-    guestForm.addEventListener(
-        "submit",
-        function (event) {
+    const guestName =
+      document.getElementById("guestName").value;
 
-            event.preventDefault();
+    const guestEmail =
+      document.getElementById("guestEmail").value;
 
-            const name =
-                document.getElementById(
-                    "guestName"
-                ).value;
+    const guestPhone =
+      document.getElementById("guestPhone").value;
 
-            const email =
-                document.getElementById(
-                    "guestEmail"
-                ).value;
+    const guestCountry =
+      document.getElementById("guestCountry").value;
 
-            const phone =
-                document.getElementById(
-                    "guestPhone"
-                ).value;
+    if (
+      guestName === "" ||
+      guestEmail === "" ||
+      guestPhone === "" ||
+      guestCountry === ""
+    ) {
+      showPopup(
+        "Please complete all guest information."
+      );
+      return;
+    }
 
-            const country =
-                document.getElementById(
-                    "guestCountry"
-                ).value;
+    const bookingNumber =
+      "SUN-" +
+      Math.floor(
+        100000 + Math.random() * 900000
+      );
 
-            if (
-                name === "" ||
-                email === "" ||
-                phone === "" ||
-                country === ""
-            ) {
-                showPopup(
-                    "Please complete all guest details."
-                );
+    document.getElementById(
+      "bookingNumber"
+    ).textContent = bookingNumber;
 
-                return;
-            }
+    document.getElementById(
+      "confirmName"
+    ).textContent = guestName;
 
-            const bookingNumber =
-                "SUN-" +
-                Math.floor(
-                    100000 +
-                    Math.random() * 900000
-                );
+    document.getElementById(
+      "confirmRoom"
+    ).textContent = bookingData.roomName;
 
-            // Confirmation Details
+    document.getElementById(
+      "confirmCheckin"
+    ).textContent = bookingData.checkin;
 
-            document.getElementById(
-                "bookingNumber"
-            ).textContent =
-                bookingNumber;
+    document.getElementById(
+      "confirmCheckout"
+    ).textContent = bookingData.checkout;
 
-            document.getElementById(
-                "confirmName"
-            ).textContent =
-                name;
+    document.getElementById(
+      "confirmGuests"
+    ).textContent = bookingData.guests;
 
-            document.getElementById(
-                "confirmRoom"
-            ).textContent =
-                document.getElementById(
-                    "summaryRoom"
-                ).textContent;
+    document.getElementById(
+      "confirmTotal"
+    ).textContent = bookingData.total;
 
-            document.getElementById(
-                "confirmCheckin"
-            ).textContent =
-                document.getElementById(
-                    "checkin"
-                ).value;
+    const completeBooking = {
+      bookingNumber,
+      guestName,
+      guestEmail,
+      guestPhone,
+      guestCountry,
+      ...bookingData,
+    };
 
-            document.getElementById(
-                "confirmCheckout"
-            ).textContent =
-                document.getElementById(
-                    "checkout"
-                ).value;
-
-            document.getElementById(
-                "confirmGuests"
-            ).textContent =
-                guests;
-
-            document.getElementById(
-                "confirmTotal"
-            ).textContent =
-                document.getElementById(
-                    "summaryTotal"
-                ).textContent;
-
-            // Save Booking
-
-            const bookingData = {
-
-                bookingNumber,
-
-                name,
-                email,
-                phone,
-                country,
-
-                room:
-                    document.getElementById(
-                        "summaryRoom"
-                    ).textContent,
-
-                guests,
-
-                nights:
-                    document.getElementById(
-                        "summaryNights"
-                    ).textContent,
-
-                total:
-                    document.getElementById(
-                        "summaryTotal"
-                    ).textContent,
-
-                checkin:
-                    document.getElementById(
-                        "checkin"
-                    ).value,
-
-                checkout:
-                    document.getElementById(
-                        "checkout"
-                    ).value
-            };
-
-            localStorage.setItem(
-                "booking",
-                JSON.stringify(
-                    bookingData
-                )
-            );
-
-            const confirmationSection =
-                document.getElementById(
-                    "confirmationSection"
-                );
-
-            if (
-                confirmationSection
-            ) {
-
-                confirmationSection
-                    .classList.remove(
-                        "hidden"
-                    );
-
-                confirmationSection
-                    .scrollIntoView({
-                        behavior:
-                            "smooth"
-                    });
-            }
-
-            showPopup(
-                "Booking completed successfully!"
-            );
-        }
+    localStorage.setItem(
+      "latestBooking",
+      JSON.stringify(completeBooking)
     );
+
+    document
+      .getElementById("confirmationSection")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("confirmationSection")
+      .scrollIntoView({
+        behavior: "smooth",
+      });
+
+    showPopup(
+      "Booking completed successfully!"
+    );
+  });
 }
 
-// ======================
+// ===========================
+// NEW BOOKING BUTTON
+// ===========================
+
+document.addEventListener(
+  "click",
+  function (event) {
+    if (
+      event.target &&
+      event.target.id === "newBookingBtn"
+    ) {
+      location.reload();
+    }
+  }
+);
+
+// ===========================
 // POPUP FUNCTION
-// ======================
+// ===========================
 
 function showPopup(message) {
+  popupMessage.textContent = message;
 
-    if (!popup || !popupMessage)
-        return;
+  popup.classList.remove("opacity-0");
+  popup.classList.add("opacity-100");
 
-    popupMessage.textContent =
-        message;
-
-    popup.classList.remove(
-        "opacity-0"
-    );
-
-    popup.classList.add(
-        "opacity-100"
-    );
-
-    setTimeout(() => {
-
-        popup.classList.remove(
-            "opacity-100"
-        );
-
-        popup.classList.add(
-            "opacity-0"
-        );
-
-    }, 3000);
+  setTimeout(() => {
+    popup.classList.remove("opacity-100");
+    popup.classList.add("opacity-0");
+  }, 3000);
 }
