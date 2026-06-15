@@ -2,93 +2,60 @@
 // DOM ELEMENTS
 // ======================
 
-const bookingForm =
-    document.getElementById("bookingForm");
+const bookingForm = document.getElementById("bookingForm");
+const guestForm = document.getElementById("guestForm");
 
-const popup =
-    document.getElementById("popup");
+const popup = document.getElementById("popup");
+const popupMessage = document.getElementById("popup-message");
 
-const popupMessage =
-    document.getElementById("popup-message");
+const minusBtn = document.getElementById("minusBtn");
+const plusBtn = document.getElementById("plusBtn");
+const guestCount = document.getElementById("guestCount");
 
-const minusBtn =
-    document.getElementById("minusBtn");
-
-const plusBtn =
-    document.getElementById("plusBtn");
-
-const guestCount =
-    document.getElementById("guestCount");
-
-const bookNowBtn =
-    document.getElementById("bookNowBtn");
-
-const bookingSection =
-    document.getElementById("bookingSection");
+const bookNowBtn = document.getElementById("bookNowBtn");
+const bookingSection = document.getElementById("bookingSection");
 
 let guests = 1;
-
 
 // ======================
 // BOOK NOW BUTTON
 // ======================
 
 if (bookNowBtn && bookingSection) {
-
-    bookNowBtn.addEventListener("click", function () {
-
+    bookNowBtn.addEventListener("click", () => {
         bookingSection.classList.remove("hidden");
 
         bookingSection.scrollIntoView({
-
             behavior: "smooth"
-
         });
-
     });
-
 }
-
 
 // ======================
 // GUEST COUNTER
 // ======================
 
 if (plusBtn) {
-
-    plusBtn.addEventListener("click", function () {
-
+    plusBtn.addEventListener("click", () => {
         guests++;
-
         guestCount.textContent = guests;
-
     });
-
 }
 
 if (minusBtn) {
-
-    minusBtn.addEventListener("click", function () {
-
+    minusBtn.addEventListener("click", () => {
         if (guests > 1) {
-
             guests--;
-
             guestCount.textContent = guests;
-
         }
-
     });
-
 }
-
 
 // ======================
 // BOOKING FORM
 // ======================
 
 if (bookingForm) {
-
     bookingForm.addEventListener("submit", function (event) {
 
         event.preventDefault();
@@ -102,34 +69,24 @@ if (bookingForm) {
         const room =
             document.getElementById("room").value;
 
-        // Validation
         if (
             checkin === "" ||
             checkout === "" ||
-            room === "" ||
-            guests < 1
+            room === ""
         ) {
-
             showPopup(
                 "Please fill in all booking details."
             );
-
             return;
-
         }
 
-        // Date Validation
         if (checkout <= checkin) {
-
             showPopup(
                 "Check-out date must be after check-in."
             );
-
             return;
-
         }
 
-        // Room Information
         const roomSelect =
             document.getElementById("room");
 
@@ -141,7 +98,6 @@ if (bookingForm) {
         const roomPrice =
             Number(roomSelect.value);
 
-        // Calculate Nights
         const checkinDate =
             new Date(checkin);
 
@@ -155,41 +111,217 @@ if (bookingForm) {
             timeDifference /
             (1000 * 60 * 60 * 24);
 
-        // Calculate Total
         const total =
             nights * roomPrice;
 
-        // Update Summary Card
-        document
-            .getElementById("summaryRoom")
-            .textContent = roomName;
+        document.getElementById(
+            "summaryRoom"
+        ).textContent = roomName;
 
-        document
-            .getElementById("summaryGuests")
-            .textContent = guests;
+        document.getElementById(
+            "summaryGuests"
+        ).textContent = guests;
 
-        document
-            .getElementById("summaryNights")
-            .textContent = nights;
+        document.getElementById(
+            "summaryNights"
+        ).textContent = nights;
 
-        document
-            .getElementById("summaryTotal")
-            .textContent = total;
+        document.getElementById(
+            "summaryTotal"
+        ).textContent = total;
 
-        // Show Summary Card
-        document
-            .getElementById("summaryCard")
-            .classList.remove("hidden");
+        const guestInfoSection =
+            document.getElementById(
+                "guestInfoSection"
+            );
 
-        // Success Popup
+        if (guestInfoSection) {
+
+            guestInfoSection
+                .classList.remove("hidden");
+
+            guestInfoSection
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+        }
+
         showPopup(
-            "Room available! Please proceed to booking."
+            "Room available! Please enter your details."
         );
-
     });
-
 }
 
+// ======================
+// GUEST FORM
+// ======================
+
+if (guestForm) {
+
+    guestForm.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+            const name =
+                document.getElementById(
+                    "guestName"
+                ).value;
+
+            const email =
+                document.getElementById(
+                    "guestEmail"
+                ).value;
+
+            const phone =
+                document.getElementById(
+                    "guestPhone"
+                ).value;
+
+            const country =
+                document.getElementById(
+                    "guestCountry"
+                ).value;
+
+            if (
+                name === "" ||
+                email === "" ||
+                phone === "" ||
+                country === ""
+            ) {
+                showPopup(
+                    "Please complete all guest details."
+                );
+
+                return;
+            }
+
+            const bookingNumber =
+                "SUN-" +
+                Math.floor(
+                    100000 +
+                    Math.random() * 900000
+                );
+
+            // Confirmation Details
+
+            document.getElementById(
+                "bookingNumber"
+            ).textContent =
+                bookingNumber;
+
+            document.getElementById(
+                "confirmName"
+            ).textContent =
+                name;
+
+            document.getElementById(
+                "confirmRoom"
+            ).textContent =
+                document.getElementById(
+                    "summaryRoom"
+                ).textContent;
+
+            document.getElementById(
+                "confirmCheckin"
+            ).textContent =
+                document.getElementById(
+                    "checkin"
+                ).value;
+
+            document.getElementById(
+                "confirmCheckout"
+            ).textContent =
+                document.getElementById(
+                    "checkout"
+                ).value;
+
+            document.getElementById(
+                "confirmGuests"
+            ).textContent =
+                guests;
+
+            document.getElementById(
+                "confirmTotal"
+            ).textContent =
+                document.getElementById(
+                    "summaryTotal"
+                ).textContent;
+
+            // Save Booking
+
+            const bookingData = {
+
+                bookingNumber,
+
+                name,
+                email,
+                phone,
+                country,
+
+                room:
+                    document.getElementById(
+                        "summaryRoom"
+                    ).textContent,
+
+                guests,
+
+                nights:
+                    document.getElementById(
+                        "summaryNights"
+                    ).textContent,
+
+                total:
+                    document.getElementById(
+                        "summaryTotal"
+                    ).textContent,
+
+                checkin:
+                    document.getElementById(
+                        "checkin"
+                    ).value,
+
+                checkout:
+                    document.getElementById(
+                        "checkout"
+                    ).value
+            };
+
+            localStorage.setItem(
+                "booking",
+                JSON.stringify(
+                    bookingData
+                )
+            );
+
+            const confirmationSection =
+                document.getElementById(
+                    "confirmationSection"
+                );
+
+            if (
+                confirmationSection
+            ) {
+
+                confirmationSection
+                    .classList.remove(
+                        "hidden"
+                    );
+
+                confirmationSection
+                    .scrollIntoView({
+                        behavior:
+                            "smooth"
+                    });
+            }
+
+            showPopup(
+                "Booking completed successfully!"
+            );
+        }
+    );
+}
 
 // ======================
 // POPUP FUNCTION
@@ -197,20 +329,29 @@ if (bookingForm) {
 
 function showPopup(message) {
 
-    if (!popup || !popupMessage) return;
+    if (!popup || !popupMessage)
+        return;
 
-    popupMessage.textContent = message;
+    popupMessage.textContent =
+        message;
 
-    popup.classList.remove("opacity-0");
+    popup.classList.remove(
+        "opacity-0"
+    );
 
-    popup.classList.add("opacity-100");
+    popup.classList.add(
+        "opacity-100"
+    );
 
-    setTimeout(function () {
+    setTimeout(() => {
 
-        popup.classList.remove("opacity-100");
+        popup.classList.remove(
+            "opacity-100"
+        );
 
-        popup.classList.add("opacity-0");
+        popup.classList.add(
+            "opacity-0"
+        );
 
     }, 3000);
-
 }
