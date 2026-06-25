@@ -1,5 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+qimport { useCallback, useEffect, useRef, useState } from "react";
 import { createBooking, fetchRooms, previewBooking } from "./api";
+import BookingLookup from "./components/BookingLookup.jsx";
+import { formatCurrency, formatDisplayDate, todayString } from "./utils/dates";
 
 const FALLBACK_ROOMS = [
   {
@@ -62,12 +64,21 @@ function App() {
   const [popupMessage, setPopupMessage] = useState("Booking Successful");
   const [popupVisible, setPopupVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPreviewing, setIsPreviewing] = useState(false);
+  const [roomsLoading, setRoomsLoading] = useState(true);
+
+  const minCheckin = todayString();
+  const minCheckout = checkin || minCheckin;
 
   useEffect(() => {
+    setRoomsLoading(true);
     fetchRooms()
       .then(setRooms)
       .catch(() => {
         setRooms(FALLBACK_ROOMS);
+      })
+      .finally(() => {
+        setRoomsLoading(false);
       });
   }, []);
 
@@ -89,10 +100,34 @@ function App() {
     requestAnimationFrame(() => scrollToRef(bookingSectionRef));
   };
 
-  const handleRoomBookNow = (roomName, roomPrice) => {
-    setRoom(roomPrice);
+  const handleRoomBookNow = (_roomName, roomPrice) => {
+    setRoom(String(roomPrice));
     setShowBookingSection(true);
     requestAnimationFrame(() => scrollToRef(bookingSectionRef));
+  };
+
+  const resetBooking = () => {
+    setShowBookingSection(false);
+    setShowGuestInfoSection(false);
+    setShowConfirmationSection(false);
+    setBookingData({});
+    setCheckin("");
+    setCheckout("");
+    setRoom("");
+    setGuests(1);
+    setGuestName("");
+    setGuestEmail("");
+    setGuestPhone("");
+    setGuestCountry("");
+    setConfirmation({
+      bookingNumber: "",
+      name: "",
+      room: "",
+      checkin: "",
+      checkout: "",
+      guests: "",
+      total: "",
+    });
   };
 
   const closeGallery = () => {
@@ -102,7 +137,8 @@ function App() {
   useEffect(() => {
     const handleNewBookingClick = (event) => {
       if (event.target?.id === "newBookingBtn") {
-        window.location.reload();
+        resetBooking();
+        openBookingSection();
       }
     };
 
@@ -118,6 +154,8 @@ function App() {
       return;
     }
 
+    setIsPreviewing(true);
+
     try {
       const result = await previewBooking({
         checkin,
@@ -129,9 +167,11 @@ function App() {
       setBookingData(result);
       setShowGuestInfoSection(true);
       requestAnimationFrame(() => scrollToRef(guestInfoSectionRef));
-      showPopup("Room available! Please enter guest details.");
+      showPopup(`Room available! ${result.nights} night(s) — ${formatCurrency(result.total)}`);
     } catch (error) {
       showPopup(error.message);
+    } finally {
+      setIsPreviewing(false);
     }
   };
 
@@ -224,7 +264,15 @@ function App() {
           </li>
           <li>
             <a
-              href="#"
+              href="#lookup"
+              className="text-white text-lg hover:text-orange-400 transition duration-300"
+            >
+              My Booking
+            </a>
+          </li>
+          <li>
+            <a
+              href="#contact"
               className="text-white text-lg hover:text-orange-400 transition duration-300"
             >
               Contact
@@ -392,61 +440,94 @@ function App() {
           onSubmit={handleBookingSubmit}
           className="max-w-4xl mx-auto grid md:grid-cols-2 gap-6"
         >
-          <input
-            id="checkin"
-            type="date"
-            value={checkin}
-            onChange={(event) => setCheckin(event.target.value)}
-            className="p-4 rounded-lg border"
-          />
+          <div>
+            <label htmlFor="checkin" className="block text-sm font-medium text-gray-600 mb-1">
+              Check-in
+            </label>
+            <input
+              id="checkin"
+              type="date"
+              min={minCheckin}
+              value={checkin}
+              onChange={(event) => setCheckin(event.target.value)}
+              className="w-full p-4 rounded-lg border"
+              required
+            />
+          </div>
 
-          <input
-            id="checkout"
-            type="date"
-            value={checkout}
-            onChange={(event) => setCheckout(event.target.value)}
-            className="p-4 rounded-lg border"
-          />
+          <div>
+            <label htmlFor="checkout" className="block text-sm font-medium text-gray-600 mb-1">
+              Check-out
+            </label>
+            <input
+              id="checkout"
+              type="date"
+              min={minCheckout}
+              value={checkout}
+              onChange={(event) => setCheckout(event.target.value)}
+              className="w-full p-4 rounded-lg border"
+              required
+            />
+          </div>
 
-          <select
-            id="room"
-            value={room}
-            onChange={(event) => setRoom(event.target.value)}
-            className="p-4 rounded-lg border"
-          >
-            <option value="">Select Room</option>
-            <option value="100">Standard Room</option>
-            <option value="180">Deluxe Room</option>
-            <option value="250">Ocean Suite</option>
-          </select>
-
-          <div className="flex justify-center items-center gap-6 border rounded-lg">
-            <button
-              type="button"
-              id="minusBtn"
-              onClick={() => setGuests((count) => (count > 1 ? count - 1 : count))}
-              className="text-3xl"
+          <div>
+            <label htmlFor="room" className="block text-sm font-medium text-gray-600 mb-1">
+              Room
+            </label>
+            <select
+              id="room"
+              value={room}
+              onChange={(event) => setRoom(event.target.value)}
+              className="w-full p-4 rounded-lg border"
+              required
+              disabled={roomsLoading}
             >
-              -
-            </button>
-            <span id="guestCount" className="text-xl font-bold">
-              {guests}
-            </span>
-            <button
-              type="button"
-              id="plusBtn"
-              onClick={() => setGuests((count) => count + 1)}
-              className="text-3xl"
-            >
-              +
-            </button>
+              <option value="">
+                {roomsLoading ? "Loading rooms..." : "Select Room"}
+              </option>
+              {rooms.map((roomItem) => (
+                <option key={roomItem.name} value={roomItem.price}>
+                  {roomItem.name} (${roomItem.price}/night)
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-600 mb-1">
+              Guests
+            </label>
+            <div className="flex justify-center items-center gap-6 border rounded-lg p-4">
+              <button
+                type="button"
+                id="minusBtn"
+                onClick={() => setGuests((count) => (count > 1 ? count - 1 : count))}
+                className="text-3xl"
+                aria-label="Decrease guests"
+              >
+                -
+              </button>
+              <span id="guestCount" className="text-xl font-bold">
+                {guests}
+              </span>
+              <button
+                type="button"
+                id="plusBtn"
+                onClick={() => setGuests((count) => count + 1)}
+                className="text-3xl"
+                aria-label="Increase guests"
+              >
+                +
+              </button>
+            </div>
           </div>
 
           <button
             type="submit"
-            className="md:col-span-2 bg-orange-500 text-white py-4 rounded-lg text-lg font-semibold hover:bg-orange-600"
+            disabled={isPreviewing}
+            className="md:col-span-2 bg-orange-500 text-white py-4 rounded-lg text-lg font-semibold hover:bg-orange-600 disabled:opacity-60"
           >
-            Continue Booking
+            {isPreviewing ? "Checking availability..." : "Continue Booking"}
           </button>
         </form>
       </section>
@@ -472,6 +553,20 @@ function App() {
             Guest Information
           </h2>
 
+          {bookingData.roomName && (
+            <div className="bg-white rounded-xl p-5 mb-6 border border-orange-200">
+              <h3 className="font-semibold text-orange-600 mb-3">Booking Summary</h3>
+              <div className="grid grid-cols-2 gap-2 text-sm text-gray-700">
+                <p><strong>Room:</strong> {bookingData.roomName}</p>
+                <p><strong>Guests:</strong> {bookingData.guests}</p>
+                <p><strong>Check-in:</strong> {formatDisplayDate(bookingData.checkin)}</p>
+                <p><strong>Check-out:</strong> {formatDisplayDate(bookingData.checkout)}</p>
+                <p><strong>Nights:</strong> {bookingData.nights}</p>
+                <p><strong>Total:</strong> {formatCurrency(bookingData.total)}</p>
+              </div>
+            </div>
+          )}
+
           <form id="guestForm" onSubmit={handleGuestSubmit}>
             <input
               id="guestName"
@@ -480,6 +575,7 @@ function App() {
               value={guestName}
               onChange={(event) => setGuestName(event.target.value)}
               className="w-full p-4 rounded-lg border mb-4"
+              required
             />
 
             <input
@@ -489,6 +585,7 @@ function App() {
               value={guestEmail}
               onChange={(event) => setGuestEmail(event.target.value)}
               className="w-full p-4 rounded-lg border mb-4"
+              required
             />
 
             <input
@@ -498,6 +595,7 @@ function App() {
               value={guestPhone}
               onChange={(event) => setGuestPhone(event.target.value)}
               className="w-full p-4 rounded-lg border mb-4"
+              required
             />
 
             <input
@@ -507,6 +605,7 @@ function App() {
               value={guestCountry}
               onChange={(event) => setGuestCountry(event.target.value)}
               className="w-full p-4 rounded-lg border mb-6"
+              required
             />
 
             <button
@@ -549,23 +648,65 @@ function App() {
             </p>
             <p>
               <strong>Check In:</strong>{" "}
-              <span id="confirmCheckin">{confirmation.checkin}</span>
+              <span id="confirmCheckin">{formatDisplayDate(confirmation.checkin)}</span>
             </p>
             <p>
               <strong>Check Out:</strong>{" "}
-              <span id="confirmCheckout">{confirmation.checkout}</span>
+              <span id="confirmCheckout">{formatDisplayDate(confirmation.checkout)}</span>
             </p>
             <p>
               <strong>Guests:</strong>{" "}
               <span id="confirmGuests">{confirmation.guests}</span>
             </p>
             <p>
-              <strong>Total:</strong> ${" "}
-              <span id="confirmTotal">{confirmation.total}</span>
+              <strong>Total:</strong>{" "}
+              <span id="confirmTotal">{formatCurrency(confirmation.total)}</span>
             </p>
+          </div>
+
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              id="newBookingBtn"
+              type="button"
+              className="bg-orange-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-600"
+            >
+              Make Another Booking
+            </button>
+            <a
+              href="#lookup"
+              className="border border-green-600 text-green-700 px-8 py-3 rounded-lg font-semibold hover:bg-green-50 text-center"
+            >
+              Find My Booking
+            </a>
           </div>
         </div>
       </section>
+
+      <BookingLookup />
+
+      <footer id="contact" className="bg-black text-gray-400 py-12 px-6">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8 text-center md:text-left">
+          <div>
+            <h3 className="text-white text-xl font-bold mb-3">The Sunset</h3>
+            <p>Where every stay ends beautifully.</p>
+          </div>
+          <div>
+            <h3 className="text-white font-semibold mb-3">Contact</h3>
+            <p>hello@thesunset.com</p>
+            <p>+1 (555) 123-4567</p>
+            <p>123 Ocean Drive, Miami, FL</p>
+          </div>
+          <div>
+            <h3 className="text-white font-semibold mb-3">Staff</h3>
+            <a href="/admin" className="text-orange-400 hover:text-orange-300">
+              Admin Dashboard →
+            </a>
+          </div>
+        </div>
+        <p className="text-center text-gray-600 mt-10 text-sm">
+          © {new Date().getFullYear()} The Sunset Hotel. All rights reserved.
+        </p>
+      </footer>
     </div>
   );
 }
