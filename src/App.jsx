@@ -1,4 +1,4 @@
-qimport { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createBooking, fetchRooms, previewBooking } from "./api";
 import BookingLookup from "./components/BookingLookup.jsx";
 import { formatCurrency, formatDisplayDate, todayString } from "./utils/dates";
