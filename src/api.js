@@ -39,3 +39,21 @@ export async function fetchBooking(bookingNumber) {
   const response = await fetch(`${API_BASE}/bookings/${bookingNumber}`);
   return parseResponse(response);
 }
+
+export async function adminLogin(password) {
+  const response = await fetch(`${API_BASE}/admin/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ password }),
+  });
+
+  return parseResponse(response);
+}
+
+export async function fetchAdminBookings(token) {
+  const response = await fetch(`${API_BASE}/admin/bookings`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  return parseResponse(response);
+}
