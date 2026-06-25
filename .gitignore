@@ -2,4 +2,7 @@ node_modules
 dist
 .DS_Store
 *.local
+.env
 server/data/bookings.json
+.postgres-data
+.postgres.log
